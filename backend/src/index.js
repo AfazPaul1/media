@@ -17,7 +17,7 @@ prisma.$connect()
 
 // GET all users
 app.get('/users', async (req, res) => {
-  const users = await prisma.user.findMany({ include: { albums: true } });
+  const users = await prisma.user.findMany();
   res.json(users);
 });
 
