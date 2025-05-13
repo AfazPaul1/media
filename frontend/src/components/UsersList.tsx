@@ -1,9 +1,15 @@
 import { useDispatch, useSelector} from "react-redux"
 import { useEffect } from "react"
-import {fetchUsers} from '../store'
+import {fetchUsers, addUsers} from '../store'
 import Skeleton1 from "./Skeleton1"
-import { Stack } from "@mui/material"
+import { Stack, Grid, Typography, Button } from "@mui/material"
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import AddIcon from '@mui/icons-material/Add';
+import { faker } from '@faker-js/faker';
+
 function UsersList() {
+    
     const dispatch = useDispatch()
     const {isLoading, data, error} = useSelector((state) => {
         return state.users
@@ -24,8 +30,43 @@ function UsersList() {
     if (error) {
         return error.name
     }
+    const handleClick = () => {
+        dispatch(addUsers({
+            name: faker.person.fullName()
+        }))
+    }
+    const renderedList = data.map((user) => {
+            return (
+                    <Grid container spacing = {2} sx={{margin:2}} justifyContent="center">
+                        <Grid size={1}>
+                            <PersonRemoveIcon fontSize="large"/>
+                        </Grid>
+                        <Grid size={4}>
+                            <Typography align="center">{user.name}</Typography>
+                        </Grid>
+                        <Grid size={1}>
+                            <ArrowDropDownIcon fontSize="large"/>
+                        </Grid>
+                    </Grid>
+                )
+            })
+
     return (
-        <div>{data.length}</div>
+        <div>
+            <Grid container spacing = {2} sx={{margin:2,}} justifyContent="center">
+                <Grid size={4}>
+                    <Typography variant="h5" color="initial">List of Users</Typography>
+                </Grid>
+                <Grid>
+                    <Button onClick={handleClick} variant="contained">
+                    <AddIcon></AddIcon>
+                    </Button>
+                </Grid>
+            </Grid>
+             {renderedList}
+        </div>
+                   
+        
     )
 }
 
