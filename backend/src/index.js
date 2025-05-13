@@ -33,7 +33,15 @@ app.get('/photos', async (req, res) => {
   res.json(photos);
 });
 
-// You can add POST routes for creating them too...
+app.post('/addUsers', async (req, res) => {
+  const {name} = req.body
+  const newUser = await prisma.user.create({
+    data: {
+      name, 
+    },
+  })
+  res.json(newUser)
+})
 
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');
