@@ -21,14 +21,8 @@ function UsersList() {
         setIsLoadingUsers(true)
         dispatch(fetchUsers())
         .unwrap()
-        .then(() => {
-            setIsLoadingUsers(false)
-        })
-        .catch((error) => {
-            setLoadingUsersError(error)
-            setIsLoadingUsers(false)
-            
-        })
+        .catch((error) => setLoadingUsersError(error))
+        .finally(() => setIsLoadingUsers(false))
     }, [])
 
     if (isLoadingUsers) {
@@ -49,7 +43,7 @@ function UsersList() {
     }
     const renderedList = data.map((user) => {
             return (
-                    <Grid container spacing = {2} sx={{margin:2}} justifyContent="center">
+                    <Grid key={user.id} container spacing = {2} sx={{margin:2}} justifyContent="center">
                         <Grid size={1}>
                             <PersonRemoveIcon fontSize="large"/>
                         </Grid>
