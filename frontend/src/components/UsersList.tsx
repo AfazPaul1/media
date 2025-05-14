@@ -1,5 +1,5 @@
 import { useDispatch, useSelector} from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import {fetchUsers, addUsers} from '../store'
 import Skeleton1 from "./Skeleton1"
 import { Stack, Grid, Typography, Button } from "@mui/material"
@@ -10,16 +10,28 @@ import { faker } from '@faker-js/faker';
 
 function UsersList() {
     
+    const [isLoadingUsers, setIsLoadingUsers] = useState(false)
+    const [loadingUsersError, setLoadingUsersError ] = useState(null)
     const dispatch = useDispatch()
-    const {isLoading, data, error} = useSelector((state) => {
+    const { data,} = useSelector((state) => {
         return state.users
     })
     
     useEffect(() => {
+        setIsLoadingUsers(true)
         dispatch(fetchUsers())
+        .unwrap()
+        .then(() => {
+            setIsLoadingUsers(false)
+        })
+        .catch((error) => {
+            setLoadingUsersError(error)
+            setIsLoadingUsers(false)
+            
+        })
     }, [])
 
-    if (isLoading) {
+    if (isLoadingUsers) {
         return (
             <Stack sx={{m:4}} spacing={2}>
                 <Skeleton1 times={4}></Skeleton1>
@@ -27,8 +39,8 @@ function UsersList() {
             
         )
     }
-    if (error) {
-        return error.name
+    if (loadingUsersError) {
+        return loadingUsersError.name
     }
     const handleClick = () => {
         dispatch(addUsers({
