@@ -8,6 +8,8 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import AddIcon from '@mui/icons-material/Add';
 import { faker } from '@faker-js/faker';
 import useThunk from "../hooks/useThunk"
+import Button1 from './Button1'
+
 
 
 function UsersList() {
@@ -64,9 +66,9 @@ function UsersList() {
                     <Typography variant="h5" color="initial">List of Users</Typography>
                 </Grid>
                 <Grid>
-                    <Button loading={isCreatingUser} onClick={handleClick} variant="contained">
+                    <Button1 loading={isCreatingUser} onClick={handleClick}>
                         <AddIcon></AddIcon>
-                    </Button>
+                    </Button1>
                     {creatingUserError && creatingUserError}
                 </Grid>
             </Grid>

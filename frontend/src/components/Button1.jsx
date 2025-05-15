@@ -1,8 +1,8 @@
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
-import '../main.css'
+import '../index.css'
 import className from 'classnames'
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Button1({
     children,
@@ -13,10 +13,14 @@ function Button1({
     danger,
     outline,
     rounded,
+    loading,
     ...rest
     }){
     
-    const classes = className(rest.className, 'flex items-center px-3 py-1.5 border', {
+    const classes = className(rest.className, 
+        'flex items-center px-3 py-1.5 border h-8', 
+        {
+        'opacity-50': loading,
         'border-blue-500 bg-blue-500 text-white': primary,
         'border-gray-500 bg-gray-500 text-white': secondary,
         'border-green-500 bg-green-500 text-white': success,
@@ -36,7 +40,13 @@ function Button1({
     return(
         <div>
             {/* <p className='px-6 bg-black italic shadow-2xs border-red-950 rounded-xs'>hello</p> */}
-            <button {...rest} className={classes}>{children}</button>
+            <button disabled={loading} {...rest} className={classes}>
+               {
+                loading?
+                <CircularProgress size={20}   />:
+                children
+               }
+            </button>
         </div>
     )
 }
