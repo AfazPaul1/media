@@ -1,5 +1,5 @@
-import { useDispatch, useSelector} from "react-redux"
-import { useEffect, useState } from "react"
+import {  useSelector} from "react-redux"
+import { useEffect } from "react"
 import {fetchUsers, addUsers} from '../store'
 import Skeleton1 from "./Skeleton1"
 import { Stack, Grid, Typography, Button } from "@mui/material"
@@ -7,25 +7,21 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import AddIcon from '@mui/icons-material/Add';
 import { faker } from '@faker-js/faker';
+import useThunk from "../hooks/useThunk"
+
 
 function UsersList() {
     
-    const [isLoadingUsers, setIsLoadingUsers] = useState(false)
-    const [loadingUsersError, setLoadingUsersError ] = useState(null)
-    const [isCreatingUser, setIsCreatingUser] = useState(false)
-    const [creatingUserError, setCreatingUserError] = useState('')
-    const dispatch = useDispatch()
+    const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
+    const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUsers)
+   
     const { data,} = useSelector((state) => {
         return state.users
     })
     
     useEffect(() => {
-        setIsLoadingUsers(true)
-        dispatch(fetchUsers())
-        .unwrap()
-        .catch((error) => setLoadingUsersError(error))
-        .finally(() => setIsLoadingUsers(false))
-    }, [])
+        doFetchUsers()
+    }, [doFetchUsers])
 
     if (isLoadingUsers) {
         return (
@@ -36,16 +32,12 @@ function UsersList() {
         )
     }
     if (loadingUsersError) {
-        return loadingUsersError.name
+        return loadingUsersError
     }
     const handleClick = () => {
-        setIsCreatingUser(true)
-        dispatch(addUsers({
+       doCreateUser({
             name: faker.person.fullName()
-        }))
-        .unwrap()
-        .catch(() => setCreatingUserError('error'))
-        .finally(() => setIsCreatingUser(false))
+        })
     }
    
     
