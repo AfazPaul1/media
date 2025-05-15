@@ -12,6 +12,8 @@ function UsersList() {
     
     const [isLoadingUsers, setIsLoadingUsers] = useState(false)
     const [loadingUsersError, setLoadingUsersError ] = useState(null)
+    const [isCreatingUser, setIsCreatingUser] = useState(false)
+    const [creatingUserError, setCreatingUserError] = useState('')
     const dispatch = useDispatch()
     const { data,} = useSelector((state) => {
         return state.users
@@ -37,10 +39,16 @@ function UsersList() {
         return loadingUsersError.name
     }
     const handleClick = () => {
+        setIsCreatingUser(true)
         dispatch(addUsers({
             name: faker.person.fullName()
         }))
+        .unwrap()
+        .catch(() => setCreatingUserError('error'))
+        .finally(() => setIsCreatingUser(false))
     }
+   
+    
     const renderedList = data.map((user) => {
             return (
                     <Grid key={user.id} container spacing = {2} sx={{margin:2}} justifyContent="center">
@@ -64,9 +72,10 @@ function UsersList() {
                     <Typography variant="h5" color="initial">List of Users</Typography>
                 </Grid>
                 <Grid>
-                    <Button onClick={handleClick} variant="contained">
-                    <AddIcon></AddIcon>
+                    <Button loading={isCreatingUser} onClick={handleClick} variant="contained">
+                        <AddIcon></AddIcon>
                     </Button>
+                    {creatingUserError && creatingUserError}
                 </Grid>
             </Grid>
              {renderedList}
