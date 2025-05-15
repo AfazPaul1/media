@@ -9,7 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { faker } from '@faker-js/faker';
 import useThunk from "../hooks/useThunk"
 import Button1 from './Button1'
-
+import Paper from '@mui/material/Paper';
 
 
 function UsersList() {
@@ -17,24 +17,43 @@ function UsersList() {
     const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
     const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUsers)
    
-    const { data,} = useSelector((state) => {
-        return state.users
-    })
+    const { data} = useSelector((state) => state.users)
     
     useEffect(() => {
         doFetchUsers()
     }, [doFetchUsers])
 
+    let content;
     if (isLoadingUsers) {
-        return (
-            <Stack sx={{m:4}} spacing={2}>
-                <Skeleton1 times={4}></Skeleton1>
-            </Stack>
-            
-        )
-    }
-    if (loadingUsersError) {
-        return loadingUsersError
+        content = (<Stack  sx={{m:2, justifyContent: "center",alignItems: "center",}} spacing={2}>
+                    <Skeleton1 times={4}></Skeleton1>
+                </Stack>)
+    } else if (loadingUsersError) {
+        content =  loadingUsersError
+    } else {
+        content = data.map((user) => {
+                    return (
+                        <Grid key={user.id} container justifyContent="center">
+                            <Grid size={6}>
+                                <Paper elevation={3} sx={{margin:1}}>
+                                <Grid  container  justifyContent="center">
+                                    <Grid size={2}>
+                                        <PersonRemoveIcon fontSize="large"/>
+                                    </Grid>
+                                    <Grid size={8}>
+                                        <Typography align="center">{user.name}</Typography>
+                                    </Grid>
+                                    <Grid size={2}>
+                                        <ArrowDropDownIcon fontSize="large"/>
+                                    </Grid>
+                                </Grid>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                        
+                        )
+                    })
+        
     }
     const handleClick = () => {
        doCreateUser({
@@ -42,23 +61,6 @@ function UsersList() {
         })
     }
    
-    
-    const renderedList = data.map((user) => {
-            return (
-                    <Grid key={user.id} container spacing = {2} sx={{margin:2}} justifyContent="center">
-                        <Grid size={1}>
-                            <PersonRemoveIcon fontSize="large"/>
-                        </Grid>
-                        <Grid size={4}>
-                            <Typography align="center">{user.name}</Typography>
-                        </Grid>
-                        <Grid size={1}>
-                            <ArrowDropDownIcon fontSize="large"/>
-                        </Grid>
-                    </Grid>
-                )
-            })
-
     return (
         <div>
             <Grid container spacing = {2} sx={{margin:2,}} justifyContent="center">
@@ -72,7 +74,8 @@ function UsersList() {
                     {creatingUserError && creatingUserError}
                 </Grid>
             </Grid>
-             {renderedList}
+            {content}
+             
         </div>
                    
         
