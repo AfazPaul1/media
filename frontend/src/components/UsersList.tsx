@@ -10,6 +10,7 @@ import { faker } from '@faker-js/faker';
 import useThunk from "../hooks/useThunk"
 import Button1 from './Button1'
 import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
 
 
 function UsersList() {
@@ -38,13 +39,18 @@ function UsersList() {
                                 <Paper elevation={3} sx={{margin:1}}>
                                 <Grid  container  justifyContent="center">
                                     <Grid size={2}>
-                                        <PersonRemoveIcon fontSize="large"/>
+                                        <IconButton>
+                                            <PersonRemoveIcon fontSize="large"/>
+                                        </IconButton>
+                                        
                                     </Grid>
-                                    <Grid size={8}>
+                                    <Grid size={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         <Typography align="center">{user.name}</Typography>
                                     </Grid>
                                     <Grid size={2}>
-                                        <ArrowDropDownIcon fontSize="large"/>
+                                        <IconButton>
+                                            <ArrowDropDownIcon fontSize="large"/>
+                                        </IconButton>
                                     </Grid>
                                 </Grid>
                                 </Paper>

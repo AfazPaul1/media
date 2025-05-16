@@ -43,6 +43,13 @@ app.post('/addUsers', async (req, res) => {
   res.json(newUser)
 })
 
+app.delete('/users/:id', async (req, res) => {
+  const id = parseInt(req.params.id, 10)
+  await prisma.user.delete({where: {id}})
+  res.json({message: `User ${id} deleted`})
+})
+
+
 app.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');
 });
