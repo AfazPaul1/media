@@ -1,6 +1,6 @@
 import {  useSelector} from "react-redux"
-import { useEffect } from "react"
-import {fetchUsers, addUsers} from '../store'
+import {  useEffect } from "react"
+import {fetchUsers, addUsers, deleteUser} from '../store'
 import Skeleton1 from "./Skeleton1"
 import { Stack, Grid, Typography, Button } from "@mui/material"
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -14,9 +14,9 @@ import IconButton from '@mui/material/IconButton';
 
 
 function UsersList() {
-    
     const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
     const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUsers)
+    const [doDeleteUser, isDeletingUser, deletingUserError] = useThunk(deleteUser)
    
     const { data} = useSelector((state) => state.users)
     
@@ -39,7 +39,7 @@ function UsersList() {
                                 <Paper elevation={3} sx={{margin:1}}>
                                 <Grid  container  justifyContent="center">
                                     <Grid size={2}>
-                                        <IconButton>
+                                        <IconButton onClick={() => handleDeleteUser(user.id)}>
                                             <PersonRemoveIcon fontSize="large"/>
                                         </IconButton>
                                         
@@ -61,10 +61,13 @@ function UsersList() {
                     })
         
     }
-    const handleClick = () => {
+    const handleAddUser = () => {
        doCreateUser({
             name: faker.person.fullName()
         })
+    }
+    const handleDeleteUser = (id) => {
+        doDeleteUser(id)
     }
    
     return (
@@ -74,7 +77,7 @@ function UsersList() {
                     <Typography variant="h5" color="initial">List of Users</Typography>
                 </Grid>
                 <Grid>
-                    <Button1 loading={isCreatingUser} onClick={handleClick}>
+                    <Button1 loading={isCreatingUser} onClick={handleAddUser}>
                         <AddIcon></AddIcon>
                     </Button1>
                     {creatingUserError && creatingUserError}
