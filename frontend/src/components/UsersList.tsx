@@ -3,20 +3,17 @@ import {  useEffect } from "react"
 import {fetchUsers, addUsers, deleteUser} from '../store'
 import Skeleton1 from "./Skeleton1"
 import { Stack, Grid, Typography, Button } from "@mui/material"
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import UsersListItem from './UsersListItem'
 import AddIcon from '@mui/icons-material/Add';
 import { faker } from '@faker-js/faker';
 import useThunk from "../hooks/useThunk"
 import Button1 from './Button1'
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
 
 
 function UsersList() {
     const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
     const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUsers)
-    const [doDeleteUser, isDeletingUser, deletingUserError] = useThunk(deleteUser)
+    
    
     const { data} = useSelector((state) => state.users)
     
@@ -32,33 +29,7 @@ function UsersList() {
     } else if (loadingUsersError) {
         content =  loadingUsersError
     } else {
-        content = data.map((user) => {
-                    return (
-                        <Grid key={user.id} container justifyContent="center">
-                            <Grid size={6}>
-                                <Paper elevation={3} sx={{margin:1}}>
-                                <Grid  container  justifyContent="center">
-                                    <Grid size={2}>
-                                        <IconButton onClick={() => handleDeleteUser(user.id)}>
-                                            <PersonRemoveIcon fontSize="large"/>
-                                        </IconButton>
-                                        
-                                    </Grid>
-                                    <Grid size={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <Typography align="center">{user.name}</Typography>
-                                    </Grid>
-                                    <Grid size={2}>
-                                        <IconButton>
-                                            <ArrowDropDownIcon fontSize="large"/>
-                                        </IconButton>
-                                    </Grid>
-                                </Grid>
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                        
-                        )
-                    })
+        content = data.map(    user => <UsersListItem key={user.id} user={user}></UsersListItem>)
         
     }
     const handleAddUser = () => {
@@ -66,10 +37,7 @@ function UsersList() {
             name: faker.person.fullName()
         })
     }
-    const handleDeleteUser = (id) => {
-        doDeleteUser(id)
-    }
-   
+  
     return (
         <div>
             <Grid container spacing = {2} sx={{margin:2,}} justifyContent="center">
@@ -83,11 +51,8 @@ function UsersList() {
                     {creatingUserError && creatingUserError}
                 </Grid>
             </Grid>
-            {content}
-             
-        </div>
-                   
-        
+            {content}           
+        </div>    
     )
 }
 
