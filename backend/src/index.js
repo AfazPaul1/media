@@ -45,8 +45,8 @@ app.post('/addUsers', async (req, res) => {
 
 app.delete('/users/:id', async (req, res) => {
   const id = parseInt(req.params.id, 10)
-  await prisma.user.delete({where: {id}})
-  res.json({message: `User ${id} deleted`})
+  const {id:deletedId} =   await prisma.user.delete({where: {id}})
+  res.json({message: `User ${deletedId} deleted`, deletedId})
 })
 
 
