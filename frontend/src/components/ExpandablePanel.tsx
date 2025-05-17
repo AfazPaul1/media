@@ -26,12 +26,7 @@ function ExpandablePanel({header, children}) {
             </Grid>
         </Grid>
         {
-            isExpanded && 
-            <Grid container justifyContent="center">
-                <Grid size={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {children}
-                </Grid>
-            </Grid>
+            isExpanded && children
         }
         </>
     )

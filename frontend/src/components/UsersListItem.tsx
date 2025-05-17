@@ -4,6 +4,7 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import {deleteUser} from '../store'
 import { Grid, Typography, IconButton, Paper } from '@mui/material';
 import ExpandablePanel from "./ExpandablePanel";
+import AlbumsList from "./AlbumsList";
 
 function UsersListItem({user}) {
 
@@ -27,7 +28,7 @@ function UsersListItem({user}) {
 
     return (        
                     <ExpandablePanel header={header}>
-                        Expanded
+                        <AlbumsList user={user}></AlbumsList>
                     </ExpandablePanel>               
     )
 }
