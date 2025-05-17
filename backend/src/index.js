@@ -38,10 +38,7 @@ app.post('/addUsers', async (req, res) => {
   const newUser = await prisma.user.create({
     data: {
       name, 
-    albums: {
-      create: albumsData,
     }
-  }
   })
   res.json(newUser)
 })
