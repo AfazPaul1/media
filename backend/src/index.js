@@ -34,11 +34,14 @@ app.get('/photos', async (req, res) => {
 });
 
 app.post('/addUsers', async (req, res) => {
-  const {name} = req.body
+  const {name, albumsData} = req.body
   const newUser = await prisma.user.create({
     data: {
       name, 
-    },
+    albums: {
+      create: albumsData,
+    }
+  }
   })
   res.json(newUser)
 })
@@ -48,6 +51,7 @@ app.delete('/users/:id', async (req, res) => {
   const {id:deletedId} =   await prisma.user.delete({where: {id}})
   res.json({message: `User ${deletedId} deleted`, deletedId})
 })
+
 
 
 app.listen(3000, () => {

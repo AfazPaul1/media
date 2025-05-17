@@ -34,7 +34,15 @@ function UsersList() {
     }
     const handleAddUser = () => {
        doCreateUser({
-            name: faker.person.fullName()
+            name: faker.person.fullName(),
+            albumsData: Array.from({ length: 2 }).map(() => ({
+                title: faker.music.album(),
+                photos: {
+                    create: Array.from({ length: 1 }).map(() => ({
+                    url: faker.image.url(),
+                    })),
+                },
+                }))
         })
     }
   
