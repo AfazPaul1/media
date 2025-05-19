@@ -21,11 +21,6 @@ app.get('/users', async (req, res) => {
   res.json(users);
 });
 
-// GET all albums
-app.get('/albums', async (req, res) => {
-  const albums = await prisma.album.findMany({ include: { photos: true } });
-  res.json(albums);
-});
 
 // GET all photos
 app.get('/photos', async (req, res) => {
@@ -47,6 +42,12 @@ app.delete('/users/:id', async (req, res) => {
   const id = parseInt(req.params.id, 10)
   const {id:deletedId} =   await prisma.user.delete({where: {id}})
   res.json({message: `User ${deletedId} deleted`, deletedId})
+})
+
+app.get('/albums', async (req, res) => {
+  const userId = parseInt(req.query.userId, 10)
+  const albumsList = await prisma.album.findMany({where: {userId}})
+  res.json(albumsList)
 })
 
 
