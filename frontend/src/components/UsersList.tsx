@@ -23,13 +23,11 @@ function UsersList() {
 
     let content;
     if (isLoadingUsers) {
-        content = (<Stack  sx={{m:2, justifyContent: "center",alignItems: "center",}} spacing={2}>
-                    <Skeleton1 times={4}></Skeleton1>
-                </Stack>)
+        content = <Skeleton1 times={4}></Skeleton1>
     } else if (loadingUsersError) {
         content =  loadingUsersError
     } else {
-        content = data.map(    user => <UsersListItem key={user.id} user={user}></UsersListItem>)
+        content = data.map(user => <UsersListItem key={user.id} user={user}></UsersListItem>)
         
     }
     const handleAddUser = () => {
@@ -39,8 +37,8 @@ function UsersList() {
     }
   
     return (
-        <div>
-            <Grid container spacing = {2} sx={{margin:2,}} justifyContent="center">
+        <Grid >
+            <Grid container spacing = {1} sx={{margin:2,}} justifyContent="center">
                 <Grid size={4}>
                     <Typography variant="h5" color="initial">List of Users</Typography>
                 </Grid>
@@ -51,8 +49,13 @@ function UsersList() {
                     {creatingUserError && creatingUserError}
                 </Grid>
             </Grid>
-            {content}           
-        </div>    
+            <Grid container spacing={2} justifyContent="center">
+                <Stack spacing={2}>
+                    {content}
+                </Stack>
+                
+            </Grid>          
+        </Grid>  
     )
 }
 

@@ -43,12 +43,18 @@ app.delete('/users/:id', async (req, res) => {
   const {id:deletedId} =   await prisma.user.delete({where: {id}})
   res.json({message: `User ${deletedId} deleted`, deletedId})
 })
-
+const pause = (duration) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, duration);
+    })
+  }
 app.get('/albums', async (req, res) => {
   const userId = parseInt(req.query.userId, 10)
   const albumsList = await prisma.album.findMany({where: {userId}})
+  pause(1000)
   res.json(albumsList)
 })
+
 
 
 

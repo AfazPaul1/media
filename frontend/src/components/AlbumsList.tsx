@@ -1,25 +1,52 @@
-import { Grid, Typography, IconButton } from "@mui/material"
+import { Grid, Typography, IconButton, Stack } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { useFetchAlbumsQuery } from "../store";
+import ExpandablePanel from "./ExpandablePanel";
+
+import Skeleton1 from "./Skeleton1";
 function AlbumsList({user}) {
 
     const {data, isLoading, error} = useFetchAlbumsQuery(user)
-    console.log(data, isLoading, error);
+    
+    let content;
+    if (isLoading) {
+        content = <Skeleton1 times={2}></Skeleton1>
+    } else if (error) {
+        content = error.error
+    } else {
+        content = data.map((album) => {
+            const header = <>
+            
+                <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} align="center">{album.title}</Typography>
+            </>
+            return <ExpandablePanel key={album.id} header={header}>
+                List of photos in the Album
+            </ExpandablePanel>
+        })
+    }
+    
     
     return (
-        <Grid container justifyContent="center">
-            <Grid size={6} sx={{pr:1,pl:2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Grid size={7}>
-                    <Typography sx={{fontSize: '12px'}}>Albums By {user.name}</Typography>
+            <Grid id="albumslist" container justifyContent='center'>
+                <Grid size={12} container  justifyContent="center">
+                    <Grid size={6}>
+                        <Typography sx={{fontSize: '12px'}}>Albums By {user.name}</Typography>
+                    </Grid>
+                    <Grid size={2}>
+                        <IconButton>
+                            <AddIcon></AddIcon>
+                        </IconButton>
+                    </Grid>
                 </Grid>
-                <Grid size={3}></Grid>
-                <Grid size={2}>
-                    <IconButton>
-                        <AddIcon></AddIcon>
-                    </IconButton>
+                <Grid container justifyContent="center">
+                    <Grid >
+                    <Stack >
+                    {content}
+                    </Stack>
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+      
     )
 }
 

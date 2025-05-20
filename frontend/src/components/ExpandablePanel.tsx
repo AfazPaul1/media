@@ -10,25 +10,24 @@ function ExpandablePanel({header, children}) {
     }
 
     return (
-        <>
-        <Grid container justifyContent="center">
-            <Grid size={6}>
-                <Paper elevation={3} sx={{margin:1}}>
-                <Grid  container  justifyContent="center">
-                    {header}
-                    <Grid size={2}>
-                        <IconButton onClick={handleExpand}>
-                            {isExpanded? <ArrowDropDownIcon fontSize="large"/> : <ArrowLeftIcon fontSize="large"/>}
-                        </IconButton>
+            <Grid spacing={2} container id='expandable' justifyContent='center'>
+                <Grid container id='first row' size={12} justifyContent='center'>
+                    <Paper elevation={3} >
+                    <Grid  container   justifyContent="center">
+                        {header}
+                        <Grid size={2}>
+                            <IconButton onClick={handleExpand}>
+                                {isExpanded? <ArrowDropDownIcon fontSize="large"/> : <ArrowLeftIcon fontSize="large"/>}
+                            </IconButton>
+                        </Grid>
                     </Grid>
+                    </Paper>
                 </Grid>
-                </Paper>
+                {
+                    isExpanded && children
+                }
             </Grid>
-        </Grid>
-        {
-            isExpanded && children
-        }
-        </>
+            
     )
 }
 export default ExpandablePanel
