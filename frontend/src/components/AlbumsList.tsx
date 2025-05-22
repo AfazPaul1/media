@@ -2,6 +2,7 @@ import { Grid, Typography, IconButton, Stack } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { useFetchAlbumsQuery, useAddAlbumsMutation } from "../store";
 import ExpandablePanel from "./ExpandablePanel";
+import Button1 from './Button1'
 
 import Skeleton1 from "./Skeleton1";
 function AlbumsList({user}) {
@@ -30,11 +31,11 @@ function AlbumsList({user}) {
     
     return (
             <div>
-            <div>
-                Albums for {user.name}
-                <IconButton loading={isAddingAlbums}  onClick={handleAddAlbums}>
+            <div className="m-2 flex flex-row items-center justify-between">
+                <h3 className="text-lg font-bold">Albums for {user.name}</h3>
+                <Button1 loading={isAddingAlbums}  onClick={handleAddAlbums}>
                     <AddIcon></AddIcon>
-                </IconButton>
+                </Button1>
             </div>
             <div>
                 {content}
