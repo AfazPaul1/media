@@ -8,8 +8,7 @@ function AlbumsList({user}) {
 
     const {data, isLoading, error} = useFetchAlbumsQuery(user)
     //maybe should first destructure the whole thing to find whether array or obj
-    const [addAlbums, results] = useAddAlbumsMutation()
-    
+    const [addAlbums, {isLoading: isAddingAlbums}] = useAddAlbumsMutation()
     const handleAddAlbums = () => {
         addAlbums(user)
     }
@@ -33,7 +32,7 @@ function AlbumsList({user}) {
             <div>
             <div>
                 Albums for {user.name}
-                <IconButton onClick={handleAddAlbums}>
+                <IconButton loading={isAddingAlbums}  onClick={handleAddAlbums}>
                     <AddIcon></AddIcon>
                 </IconButton>
             </div>

@@ -66,6 +66,7 @@ app.post('/albums', async (req, res) => {
       }
     } 
   })
+  await pause(1000)
   res.json(album)
 })
 
