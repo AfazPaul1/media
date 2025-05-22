@@ -1,12 +1,18 @@
 import { Grid, Typography, IconButton, Stack } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
-import { useFetchAlbumsQuery } from "../store";
+import { useFetchAlbumsQuery, useAddAlbumsMutation } from "../store";
 import ExpandablePanel from "./ExpandablePanel";
 
 import Skeleton1 from "./Skeleton1";
 function AlbumsList({user}) {
 
     const {data, isLoading, error} = useFetchAlbumsQuery(user)
+    //maybe should first destructure the whole thing to find whether array or obj
+    const [addAlbums, results] = useAddAlbumsMutation()
+    
+    const handleAddAlbums = () => {
+        addAlbums(user)
+    }
     
     let content;
     if (isLoading) {
@@ -15,10 +21,7 @@ function AlbumsList({user}) {
         content = error.error
     } else {
         content = data.map((album) => {
-            const header = <>
-            
-                <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} align="center">{album.title}</Typography>
-            </>
+            const header = <Typography align="center">{album.title}</Typography>
             return <ExpandablePanel key={album.id} header={header}>
                 List of photos in the Album
             </ExpandablePanel>
