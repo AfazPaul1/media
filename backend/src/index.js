@@ -51,8 +51,22 @@ const pause = (duration) => {
 app.get('/albums', async (req, res) => {
   const userId = parseInt(req.query.userId, 10)
   const albumsList = await prisma.album.findMany({where: {userId}})
-  pause(1000)
+  //forgot to await
+  await pause(1000)
   res.json(albumsList)
+})
+
+app.post('/albums', async (req, res) => {
+  const {title, userId} = req.body
+  const album = await prisma.album.create({
+    data: {
+      title,
+      user: {
+        connect: {id:userId}
+      }
+    } 
+  })
+  res.json(album)
 })
 
 
