@@ -30,25 +30,17 @@ function AlbumsList({user}) {
     
     
     return (
-            <Grid id="albumslist" container justifyContent='center'>
-                <Grid size={12} container  justifyContent="center">
-                    <Grid size={6}>
-                        <Typography sx={{fontSize: '12px'}}>Albums By {user.name}</Typography>
-                    </Grid>
-                    <Grid size={2}>
-                        <IconButton>
-                            <AddIcon></AddIcon>
-                        </IconButton>
-                    </Grid>
-                </Grid>
-                <Grid container justifyContent="center">
-                    <Grid >
-                    <Stack >
-                    {content}
-                    </Stack>
-                    </Grid>
-                </Grid>
-            </Grid>
+            <div>
+            <div>
+                Albums for {user.name}
+                <IconButton onClick={handleAddAlbums}>
+                    <AddIcon></AddIcon>
+                </IconButton>
+            </div>
+            <div>
+                {content}
+            </div>
+        </div>
       
     )
 }
