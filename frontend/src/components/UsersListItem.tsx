@@ -1,8 +1,7 @@
 import useThunk from "../hooks/useThunk"
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import {deleteUser} from '../store'
-import { Grid, Typography, IconButton, Paper } from '@mui/material';
+import { Typography, IconButton } from '@mui/material';
 import ExpandablePanel from "./ExpandablePanel";
 import AlbumsList from "./AlbumsList";
 
