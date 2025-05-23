@@ -14,16 +14,11 @@ function UsersListItem({user}) {
     }
 
     const header = 
-            <>
-                <Grid size={2}>
+            <> 
                     <IconButton loading={isDeletingUser} onClick={() => handleDeleteUser(user.id)}>
                         <PersonRemoveIcon fontSize="large"/>
                     </IconButton>
-                        
-                </Grid>
-                <Grid size={8} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Typography align="center">{user.name}</Typography>
-                </Grid>
             </>
 
     return (        

@@ -23,7 +23,7 @@ function UsersList() {
 
     let content;
     if (isLoadingUsers) {
-        content = <Skeleton1 times={4}></Skeleton1>
+        content = <Skeleton1 times={4} height={67} width={188}></Skeleton1>
     } else if (loadingUsersError) {
         content =  loadingUsersError
     } else {

@@ -16,7 +16,7 @@ function AlbumsList({user}) {
     
     let content;
     if (isLoading) {
-        content = <Skeleton1 times={2}></Skeleton1>
+        content = <Skeleton1 height={42} width={298} times={2}></Skeleton1>
     } else if (error) {
         content = error.error
     } else {
