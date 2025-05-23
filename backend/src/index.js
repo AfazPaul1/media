@@ -67,6 +67,18 @@ app.post('/albums', async (req, res) => {
   res.json(album)
 })
 
+app.delete('/albums/:albumId', async (req, res) => {
+  const albumId = parseInt(req.params.albumId, 10)
+  const deletedAlbum = await prisma.album.delete({
+    //its not where:albumId where that model's relation field id matches the albumId
+    where:{
+      id:albumId
+    }
+  },
+)
+res.json(deletedAlbum, albumId)
+})
+
 
 
 
