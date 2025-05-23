@@ -1,17 +1,23 @@
 import { Grid, Typography, IconButton, Stack } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
-import { useFetchAlbumsQuery, useAddAlbumsMutation } from "../store";
+import { useFetchAlbumsQuery, useAddAlbumsMutation, useDeleteAlbumsMutation} from "../store";
 import ExpandablePanel from "./ExpandablePanel";
 import Button1 from './Button1'
+import RemoveIcon from '@mui/icons-material/Remove';
 
 import Skeleton1 from "./Skeleton1";
 function AlbumsList({user}) {
 
     const {data, isLoading, error} = useFetchAlbumsQuery(user)
     //maybe should first destructure the whole thing to find whether array or obj
-    const [addAlbums, {isLoading: isAddingAlbums}] = useAddAlbumsMutation()
+    const [addAlbums, {isLoading: isAddingAlbums, }] = useAddAlbumsMutation()
+    
+    const [deleteAlbum, {isLoading: isDeletingAlbum}] = useDeleteAlbumsMutation()
     const handleAddAlbums = () => {
         addAlbums(user)
+    }
+    const handleDeleteAlbum = (album) => {
+        deleteAlbum(album)
     }
     
     let content;
@@ -21,7 +27,13 @@ function AlbumsList({user}) {
         content = error.error
     } else {
         content = data.map((album) => {
-            const header = <Typography align="center">{album.title}</Typography>
+            const header =
+            <>
+            <IconButton loading={isDeletingAlbum} onClick={() => handleDeleteAlbum(album)}>
+                <RemoveIcon fontSize="small"/>
+            </IconButton>
+            <Typography align="center">{album.title}</Typography>
+            </> 
             return <ExpandablePanel key={album.id} header={header}>
                 List of photos in the Album
             </ExpandablePanel>
