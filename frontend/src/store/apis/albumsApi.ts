@@ -45,11 +45,25 @@ const albumsApi = createApi(
                             method: 'GET'
                         }
                     }
+                }),
+                deleteAlbums: builder.mutation({
+                    invalidatesTags:(error, results, album) => {
+                        //before our arg was user now its album. how do we get userId? iserid is in album
+                        return [{type: 'Album', id:album.userId}]
+                    },
+                    query: (album) => {
+                        return {
+                            //we do :albumId to tell that here a variable comes
+                            //when passing in a variable we do no do that /:${album.id} its just /:${album.id}
+                            url: `/albums/${album.id}`,
+                            method: 'DELETE',
+                        }
+                    }
                 })
             }
         }
     }
 )
 
-export const {useFetchAlbumsQuery, useAddAlbumsMutation} = albumsApi;
+export const {useFetchAlbumsQuery, useAddAlbumsMutation, useDeleteAlbumsMutation} = albumsApi;
 export {albumsApi}
