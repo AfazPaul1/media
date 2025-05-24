@@ -89,6 +89,16 @@ app.get('/photos', async (req, res) => {
   res.json(photos)
 })
 
+app.post('/photos', async (req, res) => {
+  const {url, albumId} = req.body
+  const photo = await prisma.photo.create({
+    data: {
+      url,
+      albumId
+    }
+  })
+  res.json(photo)
+})
 
 
 
