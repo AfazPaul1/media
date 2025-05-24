@@ -6,7 +6,7 @@ import AlbumsListItem from "./AlbumsListItem";
 import Skeleton1 from "./Skeleton1";
 function AlbumsList({user}) {
 
-    const {data, isLoading, error} = useFetchAlbumsQuery(user)
+    const {data, isFetching, error} = useFetchAlbumsQuery(user)
     const [addAlbums, {isLoading: isAddingAlbums, }] = useAddAlbumsMutation()
     
     
@@ -16,7 +16,7 @@ function AlbumsList({user}) {
     
     
     let content;
-    if (isLoading) {
+    if (isFetching) {
         content = <Skeleton1 height={42} width={298} times={2}></Skeleton1>
     } else if (error) {
         content = error.error

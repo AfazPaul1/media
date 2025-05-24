@@ -18,8 +18,10 @@ const albumsApi = createApi(
         endpoints(builder){
             return {
                 addAlbums: builder.mutation({
-                    invalidatesTags:(error, results, user) => {
-                        return [{type: 'Album', id:user.id}]
+                    invalidatesTags:( results, error, user) => {
+                        //made a mistake here where i was still invalidtaing user and not useralbum when i had changed the tag provided to useralbum
+                        //this caused the refetch to not happen cause it wasnt invalidated
+                        return [{type: 'UserAlbums', id:user.id}]
                     },
                     query: (user) => {
                         return {
@@ -33,8 +35,12 @@ const albumsApi = createApi(
                     }
                 }),
                 fetchAlbums: builder.query({
-                    providesTags:(error, results, user) => {
-                        return [{type: 'Album', id:user.id}]
+                    providesTags:( results,error, user) => {
+                        //positional arguments rtkq calls it with args passed in a particular order
+                        //Wrap the object in parentheses to tell JavaScript you’re returning an object
+                        const tags = results.map((album) => ({type: 'Album', id: album.id}))
+                        tags.push({type:'UserAlbums', id: user.id})
+                        return tags
                     },
                     query: (user) => {
                         return {
@@ -47,9 +53,9 @@ const albumsApi = createApi(
                     }
                 }),
                 deleteAlbums: builder.mutation({
-                    invalidatesTags:(error, results, album) => {
+                    invalidatesTags:( results, error, album) => {
                         //before our arg was user now its album. how do we get userId? iserid is in album
-                        return [{type: 'Album', id:album.userId}]
+                        return [{type: 'Album', id:album.id}]
                     },
                     query: (album) => {
                         return {
