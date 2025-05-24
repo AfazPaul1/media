@@ -15,18 +15,18 @@ prisma.$connect()
     console.error('❌ Failed to connect:', err);
   });
 
+  app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.url}`);
+  next();
+});
+
 // GET all users
 app.get('/users', async (req, res) => {
   const users = await prisma.user.findMany();
   res.json(users);
 });
 
-
-// GET all photos
-app.get('/photos', async (req, res) => {
-  const photos = await prisma.photo.findMany({ include: { album: true } });
-  res.json(photos);
-});
+//since i had a photos route defined here it ran first and did not allow the second to be run with query param
 
 app.post('/addUsers', async (req, res) => {
   const {name, albumsData} = req.body
@@ -77,6 +77,16 @@ app.delete('/albums/:albumId', async (req, res) => {
   },
 )
 res.json(deletedAlbum, albumId)
+})
+
+app.get('/photos', async (req, res) => {
+  const albumId = parseInt( req.query.albumId, 10)
+  const photos = await prisma.photo.findMany({
+    where: {
+      albumId
+    }
+  })
+  res.json(photos)
 })
 
 
