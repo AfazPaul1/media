@@ -2,6 +2,7 @@ import ExpandablePanel from "./ExpandablePanel";
 import { Typography, IconButton } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useDeleteAlbumsMutation } from "../store";
+import PhotosList from "./PhotosList";
 function AlbumsListItem({album}) {
     const [deleteAlbum, {isLoading: isDeletingAlbum}] = useDeleteAlbumsMutation()
     const handleDeleteAlbum = (album) => {
@@ -17,7 +18,7 @@ function AlbumsListItem({album}) {
 
         
     return <ExpandablePanel header={header}>
-        List of photos in the Album
+        <PhotosList album={album}/>
     </ExpandablePanel>
 }
 
