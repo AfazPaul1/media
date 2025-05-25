@@ -1,11 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 //wrong import didnt import specifically for react which gives us the hooks
 import { faker } from '@faker-js/faker'
-
+const pause = (duration) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, duration);
+    })
+  }
 const photosApi = createApi({
     reducerPath: 'photos',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:3000'
+        baseUrl: 'http://localhost:3000',
+        fetchFn: async (...args) => {
+                await pause(1000)
+                return fetch(...args)
+            }
     }),
     endpoints(builder){
         return {
@@ -26,7 +34,7 @@ const photosApi = createApi({
                  },
             }),
             addPhotos: builder.mutation({
-                invalidatesTags: (result, error, album) => ({type: 'albumPhotos', id: album.id}),
+                invalidatesTags: (result, error, album) => ([{type: 'albumPhotos', id: album.id}]),
                 query: (album) => {
                     return {
                         url: `/photos`,

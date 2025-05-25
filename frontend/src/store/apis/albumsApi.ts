@@ -19,6 +19,7 @@ const albumsApi = createApi(
             return {
                 addAlbums: builder.mutation({
                     invalidatesTags:( results, error, user) => {
+                        //forgot to wrap the object in an array and that caused the bug where it wouldnt invalidate those tags
                         return [{type: 'UserAlbums', id:user.id}]
                     },
                     query: (user) => {
