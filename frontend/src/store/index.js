@@ -25,4 +25,4 @@ export * from './thunks/addUsers'
 export * from './thunks/deleteUser'
 
 export {useFetchAlbumsQuery, useAddAlbumsMutation, useDeleteAlbumsMutation} from './apis/albumsApi'
-export {useFetchPhotosQuery} from './apis/photosApi'
+export {useFetchPhotosQuery, useAddPhotosMutation} from './apis/photosApi'
