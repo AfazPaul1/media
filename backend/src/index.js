@@ -94,7 +94,11 @@ app.post('/photos', async (req, res) => {
   const photo = await prisma.photo.create({
     data: {
       url,
-      albumId
+      album: {
+        connect: {
+          id: albumId
+        }
+      }
     }
   })
   res.json(photo)
