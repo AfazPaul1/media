@@ -1,11 +1,16 @@
 import ExpandablePanel from "./ExpandablePanel";
 import { Typography, IconButton } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useDeletePhotosMutation } from "../store/apis/photosApi";
 function PhotosListItem({photo}) {
+    const [deletePhoto, {isLoading: isDeletingPhoto}] = useDeletePhotosMutation()
+    const handleDeletePhoto = (photo) => {
+        deletePhoto(photo)
+    }
     return (
         <div className="flex flex-row justify-between mb-2 border rounded">
             <div className="basis-1/6">
-                <IconButton >
+                <IconButton loading={isDeletingPhoto} onClick={() => handleDeletePhoto(photo)}>
                     <RemoveIcon fontSize="small"/>
                 </IconButton>
             </div>

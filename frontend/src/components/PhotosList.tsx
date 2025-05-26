@@ -11,7 +11,7 @@ function PhotosList({album}) {
     
     let content;
     if (isFetching) {
-        content = <Skeleton1 times={3} height={42} width={298}></Skeleton1>
+        content = <Skeleton1 times={3} height={42} width={470}></Skeleton1>
     } else if (error) {
         content = 'error'
     } else {
