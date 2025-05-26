@@ -68,15 +68,16 @@ app.post('/albums', async (req, res) => {
 })
 
 app.delete('/albums/:albumId', async (req, res) => {
-  const albumId = parseInt(req.params.albumId, 10)
+  try {const albumId = parseInt(req.params.albumId, 10)
   const deletedAlbum = await prisma.album.delete({
-    //its not where:albumId where that model's relation field id matches the albumId
     where:{
       id:albumId
     }
   },
 )
-res.json(deletedAlbum, albumId)
+res.json(deletedAlbum, albumId)} catch (error) {
+  res.status(500).json({ error: 'Failed to delete album'})
+}
 })
 
 app.get('/photos', async (req, res) => {
@@ -104,6 +105,17 @@ app.post('/photos', async (req, res) => {
   res.json(photo)
 })
 
+app.delete('/photos/:photoId', async (req, res) => {
+  try {const photoId = parseInt(req.params.photoId, 10)
+  const photo = await prisma.photo.delete({
+    where: {
+      id: photoId
+    }
+  })
+  res.status(204).send()} catch (error) {
+    res.status(500).json({ error: 'Failed to delete photo'})
+  }
+})
 
 
 app.listen(3000, () => {
