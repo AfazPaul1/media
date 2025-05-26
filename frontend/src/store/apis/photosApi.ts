@@ -45,10 +45,21 @@ const photosApi = createApi({
                         }
                     }
                 }
+            }),
+            deletePhotos: builder.mutation({
+                invalidatesTags(result, error, arg, meta) {
+                    return [{type:'photo', id:arg.id}]
+                },
+                query: (photo) => {
+                    return {
+                        url: `/photos/${photo.id}`,
+                        method: 'DELETE'
+                    }
+                }
             })
         }
     }
 })
 
-export const {useFetchPhotosQuery, useAddPhotosMutation} = photosApi;
+export const {useFetchPhotosQuery, useAddPhotosMutation, useDeletePhotosMutation} = photosApi;
 export {photosApi}
