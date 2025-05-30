@@ -1,9 +1,8 @@
-import { useDispatch } from "react-redux"
 import { useCallback, useState } from "react"
-import type { AppDispatch } from "../store"
+import { useAppDispatch } from "./hooks"
 
 function useThunk(thunk){
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useAppDispatch()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError ] = useState("")
     const runThunk = useCallback((arg) => {

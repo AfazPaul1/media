@@ -8,14 +8,14 @@ import AddIcon from '@mui/icons-material/Add';
 import { faker } from '@faker-js/faker';
 import useThunk from "../hooks/useThunk"
 import Button1 from './Button1'
-import type { RootState } from '../store'
+import { useAppSelector } from "../hooks/hooks"
 
 function UsersList() {
     const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
     const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUsers)
     
    
-    const { data} = useSelector((state: RootState) => state.users)
+    const { data} = useAppSelector((state) => state.users)
     
     useEffect(() => {
         doFetchUsers()
