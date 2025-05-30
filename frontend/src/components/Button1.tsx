@@ -1,6 +1,4 @@
-import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
-import '../index.css'
 import className from 'classnames'
 import CircularProgress from '@mui/material/CircularProgress';
 

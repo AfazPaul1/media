@@ -1,5 +1,4 @@
-import ExpandablePanel from "./ExpandablePanel";
-import { Typography, IconButton } from "@mui/material"
+import { IconButton } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove';
 
 import ImageListItem from '@mui/material/ImageListItem';
