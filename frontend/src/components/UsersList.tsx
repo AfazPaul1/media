@@ -1,21 +1,21 @@
 import {  useSelector} from "react-redux"
 import {  useEffect } from "react"
-import {fetchUsers, addUsers, deleteUser} from '../store'
+import {fetchUsers, addUsers} from '../store'
 import Skeleton1 from "./Skeleton1"
-import { Stack, Grid, Typography, Button } from "@mui/material"
+import { Stack, Grid, Typography } from "@mui/material"
 import UsersListItem from './UsersListItem'
 import AddIcon from '@mui/icons-material/Add';
 import { faker } from '@faker-js/faker';
 import useThunk from "../hooks/useThunk"
 import Button1 from './Button1'
-
+import type { RootState } from '../store'
 
 function UsersList() {
     const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
     const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUsers)
     
    
-    const { data} = useSelector((state) => state.users)
+    const { data} = useSelector((state: RootState) => state.users)
     
     useEffect(() => {
         doFetchUsers()

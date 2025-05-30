@@ -26,3 +26,7 @@ export * from './thunks/deleteUser'
 
 export {useFetchAlbumsQuery, useAddAlbumsMutation, useDeleteAlbumsMutation} from './apis/albumsApi'
 export {useFetchPhotosQuery, useAddPhotosMutation, useDeletePhotosMutation} from './apis/photosApi'
+export type AppStore = typeof store
+export type AppDispatch = AppStore['dispatch']
+export type RootState = ReturnType<AppStore['getState']>
+// export RootState type which describes the share of the redux store - global state tree and use it to type useSelector cause ts doesnt know state structure automatically
