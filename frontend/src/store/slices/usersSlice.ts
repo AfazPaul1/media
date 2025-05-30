@@ -3,15 +3,31 @@ import { fetchUsers } from '../thunks/fetchUsers'
 import { addUsers } from '../thunks/addUsers'
 import { deleteUser } from '../thunks/deleteUser'
 
+interface User {
+     id: number,
+     name: string
+}
+interface UserState {
+     data: User[],
+     isLoading: boolean,
+     error: unknown
+}
+
+const initialState: UserState = {
+     data: [],
+     isLoading: false,
+     error:null
+}
+
 const usersSlice = createSlice({
     name: "users",
-    initialState: {
-        data:[],
-        isLoading: false,
-        error:null,
-    },
+    initialState: initialState,
+    reducers:{},
+    //payloadAction<type>
+    //when using TypeScript, you should use the builder style notation for extraReducers and all your Types will be automatically inferred for you.
+    //You should not need to type anything down in extraReducers by hand - ever.
     extraReducers(builder) {
-        builder.addCase(fetchUsers.pending, (state, action) => {
+        builder.addCase(fetchUsers.pending, (state) => {
              state.isLoading = true
         })
         builder.addCase(fetchUsers.fulfilled, (state, action) => {
@@ -22,7 +38,7 @@ const usersSlice = createSlice({
              state.isLoading = false
              state.error = action.error
         })
-        builder.addCase(addUsers.pending, (state, action) => {
+        builder.addCase(addUsers.pending, (state) => {
              state.isLoading = true
         })
         builder.addCase(addUsers.fulfilled, (state, action) => {
@@ -33,7 +49,7 @@ const usersSlice = createSlice({
              state.isLoading = false
              state.error = action.error
         })
-        builder.addCase(deleteUser.pending, (state, action) => {
+        builder.addCase(deleteUser.pending, (state) => {
                state.isLoading = true
           })
           builder.addCase(deleteUser.fulfilled, (state, action) => {
