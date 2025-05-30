@@ -3,6 +3,7 @@ import { useFetchPhotosQuery, useAddPhotosMutation } from "../store"
 import Button1 from "./Button1";
 import AddIcon from '@mui/icons-material/Add';
 import PhotosListItem from './PhotosListItem'
+import ImageList from '@mui/material/ImageList';
 function PhotosList({album}) {
     const {isFetching, error, data} = useFetchPhotosQuery(album)
     const [addPhotos, {isLoading: isAddingPhotos}] = useAddPhotosMutation()
@@ -15,7 +16,10 @@ function PhotosList({album}) {
     } else if (error) {
         content = 'error'
     } else {
-        content = data.map((photo) => <PhotosListItem key={photo.id} photo={photo} />)
+        const photoItem = data.map((photo) => <PhotosListItem key={photo.id} photo={photo} />)
+        content = <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+            {photoItem}
+        </ImageList>
     }
 
     return (

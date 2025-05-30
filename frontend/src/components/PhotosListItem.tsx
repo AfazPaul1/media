@@ -1,6 +1,8 @@
 import ExpandablePanel from "./ExpandablePanel";
 import { Typography, IconButton } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove';
+
+import ImageListItem from '@mui/material/ImageListItem';
 import { useDeletePhotosMutation } from "../store/apis/photosApi";
 function PhotosListItem({photo}) {
     const [deletePhoto, {isLoading: isDeletingPhoto}] = useDeletePhotosMutation()
@@ -8,18 +10,15 @@ function PhotosListItem({photo}) {
         deletePhoto(photo)
     }
     return (
-        <div className="flex flex-row justify-between mb-2 border rounded">
-            <div className="basis-1/6">
+        <ImageListItem rows={1}>
+            <img  src={photo.url} alt="random pic"></img>
+            <div className="absolute inset-0 flex items-center justify-center hover:bg-gray-200 opacity-0 hover:opacity-80">
                 <IconButton loading={isDeletingPhoto} onClick={() => handleDeletePhoto(photo)}>
-                    <RemoveIcon fontSize="small"/>
+                    <RemoveIcon fontSize="large"/>
                 </IconButton>
             </div>
-            <div className="basis-5/6">
-                <Typography align="left">{photo.url}</Typography>
-            </div>
-        </div>
+        </ImageListItem>
     )
 }
 
 export default PhotosListItem
-//loading={isDeletingAlbum} onClick={() => handleDeleteAlbum(album)}
