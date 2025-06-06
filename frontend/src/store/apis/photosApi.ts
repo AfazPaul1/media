@@ -1,11 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-//wrong import didnt import specifically for react which gives us the hooks
+import type { Album, Photo } from "../../types/types"
 import { faker } from '@faker-js/faker'
-const pause = (duration) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, duration);
-    })
-  }
+import {pause} from '../../hooks/useDelay'
 const photosApi = createApi({
     reducerPath: 'photos',
     baseQuery: fetchBaseQuery({
@@ -15,13 +11,14 @@ const photosApi = createApi({
                 return fetch(...args)
             }
     }),
+    tagTypes: ["photo", "albumPhotos"],
     endpoints(builder){
         return {
-            fetchPhotos: builder.query({
-                providesTags: (result, error, album) => 
+            fetchPhotos: builder.query<Photo[], Album>({
+                providesTags: (result, _error, album) => 
                     result
-                    ? [ ...result.map(photo => ({type:'photo', id:photo.id})), {type:'albumPhotos', id: album.id}]
-                    : [{type:'albumPhotos', id: album.id}],
+                    ? [ ...result.map((photo: Photo) => ({type:'photo' as const, id:photo.id})), {type:'albumPhotos' as const, id: album.id}]
+                    : [{type:'albumPhotos' as const, id: album.id}],
                 
                 query: (album) => {
                     return {
@@ -34,7 +31,7 @@ const photosApi = createApi({
                  },
             }),
             addPhotos: builder.mutation({
-                invalidatesTags: (result, error, album) => ([{type: 'albumPhotos', id: album.id}]),
+                invalidatesTags: (_result, _error, album) => ([{type: 'albumPhotos', id: album.id}]),
                 query: (album) => {
                     return {
                         url: `/photos`,
@@ -47,7 +44,7 @@ const photosApi = createApi({
                 }
             }),
             deletePhotos: builder.mutation({
-                invalidatesTags(result, error, arg, meta) {
+                invalidatesTags(_result, _error, arg) {
                     return [{type:'photo', id:arg.id}]
                 },
                 query: (photo) => {

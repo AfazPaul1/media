@@ -2,16 +2,8 @@ import {createSlice} from '@reduxjs/toolkit'
 import { fetchUsers } from '../thunks/fetchUsers'
 import { addUsers } from '../thunks/addUsers'
 import { deleteUser } from '../thunks/deleteUser'
+import type {UserState} from '../../types/types'
 
-interface User {
-     id: number,
-     name: string
-}
-interface UserState {
-     data: User[],
-     isLoading: boolean,
-     error: unknown
-}
 
 const initialState: UserState = {
      data: [],

@@ -1,10 +1,8 @@
 import {createApi, fetchBaseQuery} from  '@reduxjs/toolkit/query/react'
 import { faker } from '@faker-js/faker'
-const pause = (duration) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, duration);
-    })
-  }
+import {pause} from '../../hooks/useDelay'
+import type {User, Album} from '../../types/types'
+
 const albumsApi = createApi(
     {
         reducerPath: 'albums',
@@ -15,13 +13,11 @@ const albumsApi = createApi(
                 return fetch(...args)
             }
         }),
+        tagTypes: ["Album", "UserAlbums"],
         endpoints(builder){
             return {
                 addAlbums: builder.mutation({
-                    invalidatesTags:( results, error, user) => {
-                        //forgot to wrap the object in an array and that caused the bug where it wouldnt invalidate those tags
-                        return [{type: 'UserAlbums', id:user.id}]
-                    },
+                    invalidatesTags:( _results, _error, user) =>  [{type: 'UserAlbums', id:user.id}],
                     query: (user) => {
                         return {
                             url: '/albums',
@@ -33,12 +29,18 @@ const albumsApi = createApi(
                         }
                     }
                 }),
-                fetchAlbums: builder.query({
-                    providesTags:( results,error, user) => {
-                        const tags = results.map((album) => ({type: 'Album', id: album.id}))
-                        tags.push({type:'UserAlbums', id: user.id})
-                        return tags
-                    },
+                fetchAlbums: builder.query<Album[], User>({
+                    
+                    providesTags:( results,_error, user) => 
+                        
+                        
+                        results
+                        ? [
+                            ...results.map((album: Album) => ({type: 'Album' as const, id: album.id})),
+                            {type:'UserAlbums' as const, id: user.id},
+                        ]
+                        : [{type:'UserAlbums' as const, id: user.id}]
+                    ,
                     query: (user) => {
                         return {
                             url: '/albums',
@@ -50,9 +52,7 @@ const albumsApi = createApi(
                     }
                 }),
                 deleteAlbums: builder.mutation({
-                    invalidatesTags:( results, error, album) => {
-                        return [{type: 'Album', id:album.id}]
-                    },
+                    invalidatesTags:( _results, _error, album) => [{type: 'Album' as const, id:album.id}],
                     query: (album) => {
                         return {
                             url: `/albums/${album.id}`,
