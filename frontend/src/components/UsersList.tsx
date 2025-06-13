@@ -1,4 +1,3 @@
-import {  useSelector} from "react-redux"
 import {  useEffect } from "react"
 import {fetchUsers, addUsers} from '../store'
 import Skeleton1 from "./Skeleton1"
@@ -6,15 +5,13 @@ import { Stack, Grid, Typography } from "@mui/material"
 import UsersListItem from './UsersListItem'
 import AddIcon from '@mui/icons-material/Add';
 import { faker } from '@faker-js/faker';
-import useThunk from "../hooks/useThunk"
+import {useThunk} from "../hooks/useThunk"
 import Button1 from './Button1'
 import { useAppSelector } from "../hooks/hooks"
 
 function UsersList() {
     const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
     const [doCreateUser, isCreatingUser, creatingUserError] = useThunk(addUsers)
-    
-   
     const { data} = useAppSelector((state) => state.users)
     
     useEffect(() => {
@@ -28,7 +25,6 @@ function UsersList() {
         content =  loadingUsersError
     } else {
         content = data.map(user => <UsersListItem key={user.id} user={user}></UsersListItem>)
-        
     }
     const handleAddUser = () => {
        doCreateUser({
@@ -43,7 +39,7 @@ function UsersList() {
                     <Typography variant="h5" color="initial">List of Users</Typography>
                 </Grid>
                 <Grid>
-                    <Button1 loading={isCreatingUser} onClick={handleAddUser}>
+                    <Button1 primary loading={isCreatingUser} onClick={handleAddUser}>
                         <AddIcon></AddIcon>
                     </Button1>
                     {creatingUserError && creatingUserError}

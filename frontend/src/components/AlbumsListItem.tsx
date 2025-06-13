@@ -10,6 +10,7 @@ import type { Album } from "../types/types";
 function AlbumsListItem({album}: {
     album: Album
 }) {
+    console.log("albumlistitem")
     const [deleteAlbum, {isLoading: isDeletingAlbum}] = useDeleteAlbumsMutation()
     const {data: photos} = useFetchPhotosQuery(album)
    

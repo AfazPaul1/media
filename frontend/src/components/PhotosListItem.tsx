@@ -1,6 +1,5 @@
 import { IconButton } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove';
-
 import ImageListItem from '@mui/material/ImageListItem';
 import { useDeletePhotosMutation } from "../store/apis/photosApi";
 import type { Photo } from "../types/types";
@@ -8,6 +7,7 @@ function PhotosListItem({photo}: {
         photo: Photo
     }) 
     {
+    console.log("photolistitem")
     const [deletePhoto, {isLoading: isDeletingPhoto}] = useDeletePhotosMutation()
     const handleDeletePhoto = (photo: Photo) => {
         deletePhoto(photo)
