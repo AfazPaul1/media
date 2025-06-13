@@ -3,9 +3,13 @@ import RemoveIcon from '@mui/icons-material/Remove';
 
 import ImageListItem from '@mui/material/ImageListItem';
 import { useDeletePhotosMutation } from "../store/apis/photosApi";
-function PhotosListItem({photo}) {
+import type { Photo } from "../types/types";
+function PhotosListItem({photo}: {
+        photo: Photo
+    }) 
+    {
     const [deletePhoto, {isLoading: isDeletingPhoto}] = useDeletePhotosMutation()
-    const handleDeletePhoto = (photo) => {
+    const handleDeletePhoto = (photo: Photo) => {
         deletePhoto(photo)
     }
     return (

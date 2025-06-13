@@ -2,9 +2,12 @@ import AddIcon from '@mui/icons-material/Add';
 import { useFetchAlbumsQuery, useAddAlbumsMutation} from "../store";
 import Button1 from './Button1'
 import AlbumsListItem from "./AlbumsListItem";
-
+import type { User } from '../types/types';
 import Skeleton1 from "./Skeleton1";
-function AlbumsList({user}) {
+import { Typography } from '@mui/material';
+function AlbumsList({user}: {
+    user: User
+}) {
 
     const {data, isFetching, error} = useFetchAlbumsQuery(user)
     const [addAlbums, {isLoading: isAddingAlbums, }] = useAddAlbumsMutation()

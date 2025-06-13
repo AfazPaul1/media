@@ -4,11 +4,11 @@ import {deleteUser} from '../store'
 import { Typography, IconButton } from '@mui/material';
 import ExpandablePanel from "./ExpandablePanel";
 import AlbumsList from "./AlbumsList";
-
-function UsersListItem({user}) {
+import type { User } from "../types/types";
+function UsersListItem({user}: {user:User}) {
 
     const [doDeleteUser, isDeletingUser, deletingUserError] = useThunk(deleteUser)
-    const handleDeleteUser = (id) => {
+    const handleDeleteUser = (id: number) => {
         doDeleteUser(id)
     }
 

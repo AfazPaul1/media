@@ -4,11 +4,14 @@ import Button1 from "./Button1";
 import AddIcon from '@mui/icons-material/Add';
 import PhotosListItem from './PhotosListItem'
 import ImageList from '@mui/material/ImageList';
-function PhotosList({album}) {
+import type { Album } from "../types/types";
+function PhotosList({album}: {
+        album: Album
+    }) {
     const {isFetching, error, data} = useFetchPhotosQuery(album)
     const [addPhotos, {isLoading: isAddingPhotos}] = useAddPhotosMutation()
 
-    const handleAddPhotos = () => addPhotos(album)
+    const handleAddPhotos = (album: Album) => addPhotos(album)
     
     let content;
     if (isFetching) {

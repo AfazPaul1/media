@@ -1,6 +1,10 @@
 import {Skeleton, Stack} from '@mui/material'
 
-function Skeleton1({times, height, width}){
+function Skeleton1({times, height, width}: {
+    times: number,
+    height:number,
+    width: number
+}){
     const boxes = Array(times).fill(0).map((_, i) => {
         return (
             <div key={i}>

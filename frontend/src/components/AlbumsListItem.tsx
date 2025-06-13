@@ -6,13 +6,14 @@ import PhotosList from "./PhotosList";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState } from "react";
 import { useFetchPhotosQuery } from "../store";
-function AlbumsListItem({album}) {
+import type { Album } from "../types/types";
+function AlbumsListItem({album}: {
+    album: Album
+}) {
     const [deleteAlbum, {isLoading: isDeletingAlbum}] = useDeleteAlbumsMutation()
     const {data: photos} = useFetchPhotosQuery(album)
    
-    const handleDeleteAlbum = (album) => {
-        console.log(photos.length, album);
-        if(photos.length){
+    const handleDeleteAlbum = (album: Album) => {
             setIsOpen(true)
         }
         else{

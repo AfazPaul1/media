@@ -1,7 +1,10 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import { useState } from "react";
-function ExpandablePanel({header, children}) {
+import { useState, type ReactNode } from "react";
+function ExpandablePanel({header, children}: {
+        header: ReactNode
+        children: ReactNode,
+    }) {
 
     const [isExpanded, setIsExpanded] = useState()
     const handleExpand = () => {
