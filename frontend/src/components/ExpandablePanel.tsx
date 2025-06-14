@@ -1,6 +1,7 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import { useState, type ReactNode } from "react";
+import { useState, type ReactNode , } from "react";
+import React from 'react';
 let renderCount = 0;
 function ExpandablePanel({header, children}: {
         header: ReactNode
@@ -30,4 +31,4 @@ function ExpandablePanel({header, children}: {
             </div>    
     )
 }
-export default ExpandablePanel
+export default React.memo(ExpandablePanel)
