@@ -11,7 +11,10 @@ export interface UserState {
 export interface Album {
     id: number,
     title: string,
-    userId: number
+    userId: number,
+    _count: {
+        photos:number
+    }
 }
 
 export interface Photo {

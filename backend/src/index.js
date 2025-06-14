@@ -50,7 +50,15 @@ const pause = (duration) => {
   }
 app.get('/albums', async (req, res) => {
   const userId = parseInt(req.query.userId, 10)
-  const albumsList = await prisma.album.findMany({where: {userId}})
+  const albumsList = await prisma.album.findMany({where: {userId},
+    include: {
+      _count: {
+        select: {
+          photos:true
+        }
+      }
+    }
+  })
   res.json(albumsList)
 })
 
