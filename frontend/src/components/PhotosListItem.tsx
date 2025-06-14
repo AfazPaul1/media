@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove';
 import ImageListItem from '@mui/material/ImageListItem';
-import { useDeletePhotosMutation } from "../store/apis/photosApi";
+import { useDeletePhotosMutation } from "../store";
 import type { Photo } from "../types/types";
 function PhotosListItem({photo}: {
         photo: Photo
