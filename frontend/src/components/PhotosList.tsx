@@ -5,10 +5,15 @@ import ImageList from '@mui/material/ImageList';
 import type { Album } from "../types/types";
 import { Typography } from "@mui/material";
 import { Header } from "./Header";
-function PhotosList({album}: {
-        album: Album
+import { useEffect } from "react";
+function PhotosList({album, onExpand}: {
+        album: Album,
+        onExpand: () => void
     }) {
     const {isFetching, error, data} = useFetchPhotosQuery(album)
+    useEffect(() => {
+        onExpand()
+    }, [])
     const [addPhotos, {isLoading: isAddingPhotos}] = useAddPhotosMutation()
 
     const handleAddPhotos = () => addPhotos(album)

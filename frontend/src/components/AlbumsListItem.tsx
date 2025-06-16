@@ -6,19 +6,18 @@ import PhotosList from "./PhotosList";
 import ConfirmDialog from "./ConfirmDialog";
 import { useState } from "react";
 import type { Album } from "../types/types";
+import { useHasPhotos } from "../hooks/useHasPhotos";
+import { useShouldRunQuery } from "../hooks/useShouldRunQuery";
 function AlbumsListItem({album}: {
     album: Album
 }) {
     console.log("albumlistitem")
     const [deleteAlbum, {isLoading: isDeletingAlbum}] = useDeleteAlbumsMutation()
-    //const {data: photos} = useFetchPhotosQuery(album)// there were only 8 albumlistitem renders when i expanded user if i removed this. else there were 18
-    //but this causes another issue now when i add a photo to an album and immediately delete that album it gets deleted no warning screen.
-    //cause when we add photo only photo listen item rerenders not albumlist which has the fetchalbums query we would have to run it to get the updated photos count
-    //one  idea is to invalidate that album so fetchalbums is called again
-    //but photos and albums are separate apis and do not share a cache 
-    //read a single api slice is better pattern
+    const {shouldRunQuery, onExpand} = useShouldRunQuery()
+    const hasPhotos = useHasPhotos(album, shouldRunQuery);
+    
     const handleDeleteAlbum = (album: Album) => {
-        if(album._count.photos){ //optional chaining
+        if(hasPhotos){ 
             setIsOpen(true)
         }
         else{
@@ -38,7 +37,7 @@ function AlbumsListItem({album}: {
     return (
     <>
         <ExpandablePanel header={header}>
-            <PhotosList album={album}/>
+            <PhotosList album={album} onExpand={onExpand}/>
         </ExpandablePanel>
         <ConfirmDialog 
         open={isOpen} 
